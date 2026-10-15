@@ -5,11 +5,6 @@
 [![Frontend](https://img.shields.io/badge/Frontend-Vanilla%20JS-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/docs/Web/JavaScript)
 [![Deploy](https://img.shields.io/badge/Deploy-Vercel%20configurado-black?logo=vercel)](https://vercel.com/)
 
-# MasterBIT
-
-[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/API-FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-
 <p align="center">
 	<img src="imagem/logo.png" alt="Logo MasterBIT" width="600">
 </p>
