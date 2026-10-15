@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090914">
+  <meta name="description" content="Explore cartas Pokémon TCG, compare preços e encontre sua próxima carta rara.">
+  <title>MasterBIT TCG | Guia de valores Pokémon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <script>
+    tailwind = {
+      config: {
+        theme: {
+          extend: {
+            colors: {
+              neon: {
+                cyan: '#06b6d4',
+                fuchsia: '#c026d3',
+                ink: '#090914',
+                panel: '#111120',
+                raised: '#19192b'
+              }
+            },
+            fontFamily: {
+              pixel: ['"Press Start 2P"', 'cursive'],
+              arcade: ['"VT323"', 'monospace']
+            },
+            boxShadow: {
+              pixelcyan: '4px 4px 0px rgba(6, 182, 212, 1)',
+              pixelfuchsia: '4px 4px 0px rgba(192, 38, 211, 1)'
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: "VT323", monospace;
+      background: #090914;
+      color: #f4f4f5;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+    }
+
+    * {
+      box-sizing: border-box;
+      border-radius: 0 !important;
+    }
+
+    body {
+      min-width: 320px;
+      margin: 0;
+      background-color: #090914;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .025) 1px, transparent 1px);
+      background-size: 24px 24px;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .pixel-heading,
+    .pixel-label {
+      font-family: "Press Start 2P", cursive;
+    }
+
+    .pixel-heading {
+      line-height: 1.8;
+    }
+
+    .pixel-panel {
+      border: 2px solid #283448;
+      box-shadow: 5px 5px 0 #020208;
+    }
+
+    .pixel-button {
+      border: 2px solid #06b6d4;
+      box-shadow: 0 4px 0 #087b91;
+      transition: transform 100ms steps(2), box-shadow 100ms steps(2), background-color 100ms steps(2);
+    }
+
+    .pixel-button:hover {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #087b91;
+    }
+
+    .pixel-button:active {
+      transform: translateY(4px);
+      box-shadow: 0 0 0 #087b91;
+    }
+
+    .collection-button[aria-pressed="true"] {
+      border-color: #c026d3;
+      background: #86198f;
+      color: #fff;
+      box-shadow: 3px 3px 0 #4a0755;
+    }
+
+    .language-check {
+      accent-color: #c026d3;
+    }
+
+    .pokemon-card {
+      border: 1px solid rgba(6, 182, 212, .55);
+      box-shadow: 4px 4px 0 rgba(6, 182, 212, .55);
+      transition: transform 130ms steps(3), border-color 130ms steps(3), box-shadow 130ms steps(3);
+    }
+
+    .pokemon-card:hover,
+    .pokemon-card:focus-within {
+      z-index: 2;
+      transform: translate(-2px, -2px);
+      border-color: #c026d3;
+      box-shadow: 6px 6px 0 rgba(192, 38, 211, .8);
+    }
+
+    .card-image-wrap {
+      background:
+        radial-gradient(ellipse at 50% 43%, rgba(6, 182, 212, .13), transparent 70%),
+        #10101c;
+    }
+
+    .card-image {
+      filter: drop-shadow(0 5px 9px rgba(0, 0, 0, .45));
+    }
+
+    #card-preview {
+      position: fixed;
+      z-index: 60;
+      display: none;
+      width: 300px;
+      pointer-events: none;
+      line-height: 0;
+    }
+
+    #card-preview.is-visible {
+      display: block;
+    }
+
+    #card-preview img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 2.5 / 3.5;
+      object-fit: contain;
+    }
+
+    dialog {
+      color: #f4f4f5;
+    }
+
+    dialog::backdrop {
+      background: rgba(3, 3, 12, .82);
+      backdrop-filter: blur(2px);
+    }
+
+    .dialog-frame {
+      border: 2px solid #c026d3;
+      box-shadow: 7px 7px 0 #06b6d4;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        font-size: 18px;
+      }
+
+      #card-preview {
+        width: 210px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-neon-ink text-zinc-100 antialiased">
+  <div class="bg-green-500 py-1 text-center text-xs text-white">Tailwind CSS Carregado com Sucesso</div>
+
+  <header class="border-b-2 border-neon-cyan bg-neon-ink/95">
+    <div class="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+      <a href="#inicio" class="flex shrink-0 items-center" aria-label="MasterBIT TCG - início">
+        <img src="../imagem/Gemini_Generated_Image_1palfx1palfx1pal-Photoroom.png" alt="MasterBIT" class="h-auto w-44 object-contain sm:w-60 lg:w-72">
+      </a>
+
+      <form id="search-form" role="search" class="order-3 flex w-full border-2 border-neon-cyan bg-neon-panel p-1 sm:order-none sm:mx-4 sm:w-auto sm:max-w-xl sm:flex-1">
+        <label for="search-input" class="sr-only">Buscar cartas Pokémon</label>
+        <span class="flex items-center pl-2 text-neon-cyan" aria-hidden="true">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
+        </span>
+        <input id="search-input" type="search" placeholder="BUSCAR CARTA, POKÉMON OU COLEÇÃO..." class="min-w-0 flex-1 bg-transparent px-3 py-2 text-xl text-white outline-none placeholder:text-zinc-500" autocomplete="off">
+        <button class="pixel-label border-2 border-neon-cyan bg-neon-cyan px-3 py-2 text-[8px] text-neon-ink transition hover:bg-cyan-300" type="submit">BUSCAR</button>
+      </form>
+
+    </div>
+  </header>
+
+  <main id="inicio" class="mx-auto max-w-[1600px] px-4 pb-16 pt-7 sm:px-6 lg:px-8">
+    <section class="mb-7 flex flex-col justify-between gap-5 border-b border-white/10 pb-6 sm:flex-row sm:items-end">
+      <div>
+        <p class="pixel-label mb-3 text-[8px] text-neon-fuchsia">// GUIA DE VALORES POKÉMON TCG</p>
+        <h1 class="pixel-heading text-sm text-white sm:text-base">CONSULTE O VALOR<br><span class="text-neon-cyan">DAS SUAS CARTAS</span></h1>
+        <p class="mt-3 text-2xl text-zinc-400">Pesquise e compare valores de referência para cartas Pokémon TCG. Passe o mouse para ampliar.</p>
+      </div>
+      <div class="flex items-center gap-2 self-start border border-neon-fuchsia/50 bg-neon-fuchsia/10 px-3 py-2 text-lg text-fuchsia-200 sm:self-auto">
+        <span class="h-2 w-2 animate-pulse bg-neon-fuchsia"></span>
+        <span>INFORMAÇÃO PARA COLECIONADORES</span>
+      </div>
+    </section>
+
+    <div class="grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-8">
+      <aside class="pixel-panel flex flex-col border-white/10 bg-neon-panel p-4 sm:p-5" aria-label="Filtros e coleções">
+        <div class="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
+          <h2 class="pixel-label text-[9px] text-neon-cyan">FILTROS</h2>
+          <button id="clear-filters" type="button" class="text-lg text-zinc-400 hover:text-neon-fuchsia">LIMPAR</button>
+        </div>
+
+        <fieldset class="border-b border-white/10 pb-5">
+          <legend class="pixel-label mb-3 text-[8px] text-zinc-200">IDIOMA</legend>
+          <div class="space-y-2">
+            <label class="flex cursor-pointer items-center gap-2 text-xl text-zinc-300 hover:text-white"><input class="language-check" type="checkbox" value="br" checked> 🇧🇷 Português</label>
+            <label class="flex cursor-pointer items-center gap-2 text-xl text-zinc-300 hover:text-white"><input class="language-check" type="checkbox" value="us" checked> 🇺🇸 Inglês</label>
+            <label class="flex cursor-pointer items-center gap-2 text-xl text-zinc-300 hover:text-white"><input class="language-check" type="checkbox" value="jp" checked> 🇯🇵 Japonês</label>
+          </div>
+        </fieldset>
+
+        <section class="pt-5" aria-labelledby="collections-heading">
+          <div class="mb-3 flex items-center justify-between">
+            <h2 id="collections-heading" class="pixel-label text-[8px] text-zinc-200">COLEÇÕES / PACKS</h2>
+            <span class="text-neon-fuchsia" aria-hidden="true">✦</span>
+          </div>
+          <p id="packs-status" class="mb-2 text-base text-zinc-500" role="status"></p>
+          <label for="pack-search" class="sr-only">Pesquisar coleções e packs</label>
+          <div class="mb-3 flex min-w-0 border-2 border-neon-cyan/60 bg-neon-ink">
+            <span class="flex items-center pl-2 text-neon-cyan" aria-hidden="true">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
+            </span>
+            <input id="pack-search" type="search" class="min-w-0 flex-1 bg-transparent px-2 py-2 text-xl text-white outline-none placeholder:text-zinc-500" placeholder="BUSCAR PACK..." autocomplete="off">
+          </div>
+          <p id="pack-search-empty" class="mb-2 text-lg text-zinc-500" role="status" hidden>Nenhum pack encontrado.</p>
+          <nav id="collection-list" class="max-h-[36rem] min-w-0 space-y-2 overflow-x-hidden overflow-y-auto px-1 pr-2" aria-label="Coleções">
+            <button type="button" class="collection-button min-h-14 w-full break-words border-2 border-white/10 px-3 py-3 text-left text-2xl leading-tight text-zinc-300 transition hover:border-neon-fuchsia hover:text-white" data-collection="all" aria-pressed="false">Todas as cartas</button>
+            <button type="button" class="collection-button min-h-14 w-full break-words border-2 border-white/10 px-3 py-3 text-left text-2xl leading-tight text-zinc-300 transition hover:border-neon-fuchsia hover:text-white" data-collection="sv3pt5" aria-pressed="true">151 (Scarlet &amp; Violet)</button>
+          </nav>
+        </section>
+
+        <div class="mt-auto border-t border-white/10 pt-4 text-lg text-zinc-500">
+          <span class="text-neon-cyan">DICA:</span> passe o mouse sobre uma carta para ampliar.
+        </div>
+      </aside>
+
+      <section id="cards-section" class="min-w-0" aria-labelledby="cards-heading">
+        <div class="mb-4 flex flex-wrap items-end justify-between gap-3 border-b border-white/10 pb-4">
+          <div>
+            <p class="pixel-label mb-2 text-[7px] text-neon-fuchsia">// PESQUISA DE VALORES</p>
+            <h2 id="cards-heading" class="pixel-heading text-[10px] leading-6 text-white sm:text-xs">MOSTRANDO CARTAS DE: <span id="collection-title" class="text-neon-cyan">151 (SCARLET &amp; VIOLET)</span></h2>
+            <p id="result-count" class="mt-2 text-lg text-zinc-400" aria-live="polite">Conectando à API de cartas...</p>
+            <p id="exchange-rate-note" class="mt-1 text-base text-zinc-500" aria-live="polite"></p>
+          </div>
+          <label class="flex items-center gap-2 text-lg text-zinc-400">ORDENAR
+            <select id="sort-select" class="border-2 border-white/15 bg-neon-panel px-2 py-1 text-xl text-white outline-none focus:border-neon-cyan">
+              <option value="featured">Em destaque</option>
+              <option value="price-asc">Menor preço</option>
+              <option value="price-desc">Maior preço</option>
+              <option value="name">Nome A-Z</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="card-grid" class="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5" aria-live="polite"></div>
+        <p id="empty-state" hidden class="pixel-panel border-dashed border-white/20 bg-neon-panel px-4 py-12 text-center text-2xl text-zinc-400">Nenhuma carta encontrada. Tente alterar a busca ou os filtros.</p>
+        <p class="mt-6 text-sm text-zinc-500">Valores em BRL marcados como estimados são calculados pelo câmbio do dia e não representam uma cotação de mercado nacional. Imagens e dados servidos pela Pokémon TCG API.</p>
+      </section>
+    </div>
+  </main>
+
+  <div id="card-preview" aria-hidden="true">
+    <img id="card-preview-image" src="" alt="">
+  </div>
+
+  <dialog id="details-dialog" class="dialog-frame m-auto max-h-[90vh] w-[min(92vw,760px)] overflow-y-auto bg-neon-panel p-0">
+    <div class="flex items-center justify-between border-b border-white/10 p-4">
+      <div>
+        <p class="pixel-label text-[7px] text-neon-fuchsia">// CARTA EM DESTAQUE</p>
+        <h2 id="details-title" class="mt-2 text-2xl text-white"></h2>
+      </div>
+      <button type="button" data-close="details-dialog" class="border-2 border-white/20 px-3 py-1 text-xl hover:border-neon-cyan" aria-label="Fechar detalhes">X</button>
+    </div>
+    <div class="grid gap-5 p-5 sm:grid-cols-[minmax(0,280px)_1fr]">
+      <img id="details-image" src="" alt="" class="mx-auto max-h-[65vh] w-full object-contain">
+      <div class="flex flex-col justify-center">
+        <p id="details-set" class="mb-4 text-xl text-zinc-400"></p>
+        <div class="grid grid-cols-1 gap-3">
+          <div class="border border-neon-cyan/50 bg-black/20 p-3">
+            <p class="text-lg text-zinc-400">PREÇO USD</p>
+            <p id="details-usd" class="text-3xl text-cyan-300"></p>
+          </div>
+          <div class="border border-neon-fuchsia/50 bg-black/20 p-3">
+            <p id="details-brl-label" class="text-lg text-zinc-400">PREÇO BRL</p>
+            <p id="details-brl" class="text-3xl text-fuchsia-300"></p>
+          </div>
+        </div>
+        <p id="details-price-provenance" class="mt-3 text-sm text-zinc-500"></p>
+      </div>
+    </div>
+  </dialog>
+
+  <footer class="border-t border-white/10">
+    <div class="mx-auto flex max-w-[1600px] flex-col gap-2 px-4 py-5 text-lg text-zinc-500 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+      <span class="pixel-label text-[8px] text-neon-cyan">MASTERBIT TCG</span>
+      <span>Valores de referência demonstrativos para consulta. Não realizamos vendas.</span>
+    </div>
+  </footer>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "pack_id": "pop2",
+  "updated_at": 1792090802.9726272,
+  "cards": [
+    {"id":"pop2-1","name":"Entei","number":"1","rarity":null,"set":{"id":"pop2","name":"POP Series 2"},"images":{"small":"https://assets.tcgdex.net/en/pop/pop2/1/low.png","large":"https://assets.tcgdex.net/en/pop/pop2/1/high.png"},"tcgplayer":{"prices":{}}},
+    {"id":"pop2-2","name":"Pidgeot","number":"2","rarity":null,"set":{"id":"pop2","name":"POP Series 2"},"images":{"small":"https://assets.tcgdex.net/en/pop/pop2/2/low.png","large":"https://assets.tcgdex.net/en/pop/pop2/2/high.png"},"tcgplayer":{"prices":{}}},
+    {"id":"pop2-3","name":"Raikou","number":"3","rarity":null,"set":{"id":"pop2","name":"POP Series 2"},"images":{"small":"https://assets.tcgdex.net/en/pop/pop2/3/low.png","large":"https://assets.tcgdex.net/en/pop/pop2/3/high.png"},"tcgplayer":{"prices":{}}},
+    {"id":"pop2-4","name":"Suicune","number":"4","rarity":null,"set":{"id":"pop2","name":"POP Series 2"},"images":{"small":"https://assets.tcgdex.net/en/pop/pop2/4/low.png","large":"https://assets.tcgdex.net/en/pop/pop2/4/high.png"},"tcgplayer":{"prices":{}}},
+    {"id":"pop2-5","name":"Tauros","number":"5","rarity":null,"set":{"id":"pop2","name":"POP Series 2"},"images":{"small":"https://assets.tcgdex.net/en/pop/pop2/5/low.png","large":"https://assets.tcgdex.net/en/pop/pop2/5/high.png"},"tcgplayer":{"prices":{}}},
+    {"id":"pop2-6","name":"Venusaur","number":"6","rarity":null,"set":{"id":"pop2","name":"POP Series 2"},"images":{"small":"https://assets.tcgdex.net/en/pop/pop2/6/low.png","large":"https://assets.tcgdex.net/en/pop/pop2/6/high.png"},"tcgplayer":{"prices":{}}},
+    {"id":"pop2-7","name":"Ivysaur","number":"7","rarity":null,"set":{"id":"pop2","name":"POP Series 2"},"images":{"small":"https://assets.tcgdex.net/en/pop/pop2/7/low.png","large":"https://assets.tcgdex.net/en/pop/pop2/7/high.png"},"tcgplayer":{"prices":{}}},
+    {"id":"pop2-8","name":"Mr. Briney's Compassion","number":"8","rarity":null,"set":{"id":"pop2","name":"POP Series 2"},"images":{"small":"https://assets.tcgdex.net/en/pop/pop2/8/low.png","large":"https://assets.tcgdex.net/en/pop/pop2/8/high.png"},"tcgplayer":{"prices":{}}},
+    {"id":"pop2-9","name":"Multi Technical Machine 01","number":"9","rarity":null,"set":{"id":"pop2","name":"POP Series 2"},"images":{"small":"https://assets.tcgdex.net/en/pop/pop2/9/low.png","large":"https://assets.tcgdex.net/en/pop/pop2/9/high.png"},"tcgplayer":{"prices":{}}},
+    {"id":"pop2-10","name":"Pokémon Park","number":"10","rarity":null,"set":{"id":"pop2","name":"POP Series 2"},"images":{"small":"https://assets.tcgdex.net/en/pop/pop2/10/low.png","large":"https://assets.tcgdex.net/en/pop/pop2/10/high.png"},"tcgplayer":{"prices":{}}},
+    {"id":"pop2-11","name":"TV Reporter","number":"11","rarity":null,"set":{"id":"pop2","name":"POP Series 2"},"images":{"small":"https://assets.tcgdex.net/en/pop/pop2/11/low.png","large":"https://assets.tcgdex.net/en/pop/pop2/11/high.png"},"tcgplayer":{"prices":{}}},
+    {"id":"pop2-12","name":"Bulbasaur","number":"12","rarity":null,"set":{"id":"pop2","name":"POP Series 2"},"images":{"small":"https://assets.tcgdex.net/en/pop/pop2/12/low.png","large":"https://assets.tcgdex.net/en/pop/pop2/12/high.png"},"tcgplayer":{"prices":{}}},
+    {"id":"pop2-13","name":"Cacnea","number":"13","rarity":null,"set":{"id":"pop2","name":"POP Series 2"},"images":{"small":"https://assets.tcgdex.net/en/pop/pop2/13/low.png","large":"https://assets.tcgdex.net/en/pop/pop2/13/high.png"},"tcgplayer":{"prices":{}}},
+    {"id":"pop2-14","name":"Luvdisc","number":"14","rarity":null,"set":{"id":"pop2","name":"POP Series 2"},"images":{"small":"https://assets.tcgdex.net/en/pop/pop2/14/low.png","large":"https://assets.tcgdex.net/en/pop/pop2/14/high.png"},"tcgplayer":{"prices":{}}},
+    {"id":"pop2-15","name":"Phanpy","number":"15","rarity":null,"set":{"id":"pop2","name":"POP Series 2"},"images":{"small":"https://assets.tcgdex.net/en/pop/pop2/15/low.png","large":"https://assets.tcgdex.net/en/pop/pop2/15/high.png"},"tcgplayer":{"prices":{}}},
+    {"id":"pop2-16","name":"Pikachu","number":"16","rarity":null,"set":{"id":"pop2","name":"POP Series 2"},"images":{"small":"https://assets.tcgdex.net/en/pop/pop2/16/low.png","large":"https://assets.tcgdex.net/en/pop/pop2/16/high.png"},"tcgplayer":{"prices":{}}},
+    {"id":"pop2-17","name":"Celebi ex","number":"17","rarity":null,"set":{"id":"pop2","name":"POP Series 2"},"images":{"small":"https://assets.tcgdex.net/en/pop/pop2/17/low.png","large":"https://assets.tcgdex.net/en/pop/pop2/17/high.png"},"tcgplayer":{"prices":{}}}
+  ],
+  "pack_name": "POP Series 2"
+}
