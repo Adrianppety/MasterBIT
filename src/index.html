@@ -174,6 +174,20 @@
       box-shadow: 7px 7px 0 #06b6d4;
     }
 
+    .brand-logo-link {
+      width: clamp(14rem, 22vw, 18rem);
+      height: clamp(6.5rem, 10vw, 8rem);
+      overflow: hidden;
+      flex: 0 0 auto;
+    }
+
+    .brand-logo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transform: scale(1.3);
+    }
+
     [hidden] {
       display: none !important;
     }
@@ -185,6 +199,11 @@
 
       #card-preview {
         width: 210px;
+      }
+
+      .brand-logo-link {
+        width: min(100%, 15rem);
+        height: 7rem;
       }
     }
 
@@ -199,15 +218,13 @@
   </style>
 </head>
 <body class="min-h-screen bg-neon-ink text-zinc-100 antialiased">
-  <div class="bg-green-500 py-1 text-center text-xs text-white">Tailwind CSS Carregado com Sucesso</div>
-
   <header class="border-b-2 border-neon-cyan bg-neon-ink/95">
-    <div class="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
-      <a href="#inicio" class="flex shrink-0 items-center" aria-label="MasterBIT TCG - início">
-        <img src="../imagem/Gemini_Generated_Image_1palfx1palfx1pal-Photoroom.png" alt="MasterBIT" class="h-auto w-44 object-contain sm:w-60 lg:w-72">
+    <div class="mx-auto flex min-w-0 max-w-[1600px] flex-wrap items-center justify-center gap-3 px-4 py-2 sm:justify-between sm:px-6 sm:py-3 lg:px-8">
+      <a href="#inicio" class="brand-logo-link flex items-center" aria-label="MasterBIT TCG - início">
+        <img src="/imagem/Gemini_Generated_Image_1palfx1palfx1pal-Photoroom.png" alt="MasterBIT TCG" width="2400" height="1340" fetchpriority="high" class="brand-logo" decoding="async">
       </a>
 
-      <form id="search-form" role="search" class="order-3 flex w-full border-2 border-neon-cyan bg-neon-panel p-1 sm:order-none sm:mx-4 sm:w-auto sm:max-w-xl sm:flex-1">
+      <form id="search-form" role="search" class="order-3 flex min-w-0 w-full border-2 border-neon-cyan bg-neon-panel p-1 sm:order-none sm:mx-4 sm:w-auto sm:max-w-xl sm:flex-1">
         <label for="search-input" class="sr-only">Buscar cartas Pokémon</label>
         <span class="flex items-center pl-2 text-neon-cyan" aria-hidden="true">
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
@@ -262,7 +279,7 @@
             <input id="pack-search" type="search" class="min-w-0 flex-1 bg-transparent px-2 py-2 text-xl text-white outline-none placeholder:text-zinc-500" placeholder="BUSCAR PACK..." autocomplete="off">
           </div>
           <p id="pack-search-empty" class="mb-2 text-lg text-zinc-500" role="status" hidden>Nenhum pack encontrado.</p>
-          <nav id="collection-list" class="max-h-[36rem] min-w-0 space-y-2 overflow-x-hidden overflow-y-auto px-1 pr-2" aria-label="Coleções">
+          <nav id="collection-list" class="max-h-72 min-w-0 space-y-2 overflow-x-hidden overflow-y-auto px-1 pr-2 sm:max-h-[36rem]" aria-label="Coleções">
             <button type="button" class="collection-button min-h-14 w-full break-words border-2 border-white/10 px-3 py-3 text-left text-2xl leading-tight text-zinc-300 transition hover:border-neon-fuchsia hover:text-white" data-collection="all" aria-pressed="false">Todas as cartas</button>
             <button type="button" class="collection-button min-h-14 w-full break-words border-2 border-white/10 px-3 py-3 text-left text-2xl leading-tight text-zinc-300 transition hover:border-neon-fuchsia hover:text-white" data-collection="sv3pt5" aria-pressed="true">151 (Scarlet &amp; Violet)</button>
           </nav>
@@ -291,7 +308,7 @@
           </label>
         </div>
 
-        <div id="card-grid" class="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5" aria-live="polite"></div>
+        <div id="card-grid" class="grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5" aria-live="polite"></div>
         <p id="empty-state" hidden class="pixel-panel border-dashed border-white/20 bg-neon-panel px-4 py-12 text-center text-2xl text-zinc-400">Nenhuma carta encontrada. Tente alterar a busca ou os filtros.</p>
         <p class="mt-6 text-sm text-zinc-500">Valores em BRL marcados como estimados são calculados pelo câmbio do dia e não representam uma cotação de mercado nacional. Imagens e dados servidos pela Pokémon TCG API.</p>
       </section>
