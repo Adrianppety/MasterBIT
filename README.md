@@ -1,7 +1,7 @@
 # MasterBIT
 
 <p align="center">
-	<img src="imagem/LOGO.png" alt="Logo do MasterBIT" width="420">
+	<img src="imagem/Gemini_Generated_Image_1palfx1palfx1pal-Photoroom.png" alt="Logo do MasterBIT" width="420">
 </p>
 
 <p align="center">
