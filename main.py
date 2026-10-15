@@ -26,10 +26,11 @@ SETS_CACHE_TTL = int(os.getenv("SETS_CACHE_TTL_SECONDS", "43200"))
 CARDS_CACHE_TTL = int(os.getenv("CARDS_CACHE_TTL_SECONDS", "3600"))
 PACKS_FILE_TTL = int(os.getenv("PACKS_FILE_TTL_SECONDS", "43200"))
 PACK_CARDS_FILE_TTL = int(os.getenv("PACK_CARDS_FILE_TTL_SECONDS", "86400"))
+PACKS_SOURCE_DIR = Path(__file__).resolve().parent / "API" / "packs"
 DEFAULT_PACKS_CACHE_DIR = (
     Path("/tmp/masterbit-packs")
     if os.getenv("VERCEL")
-    else Path(__file__).resolve().parent / "API" / "packs"
+    else PACKS_SOURCE_DIR
 )
 PACKS_CACHE_DIR = Path(os.getenv("MASTERBIT_PACKS_DIR", str(DEFAULT_PACKS_CACHE_DIR)))
 EXCHANGE_RATE_CACHE_TTL = int(os.getenv("EXCHANGE_RATE_CACHE_TTL_SECONDS", "3600"))
@@ -160,6 +161,18 @@ def _cache_is_fresh(payload: dict[str, Any], ttl_seconds: int) -> bool:
     return isinstance(updated_at, (int, float)) and time.time() - updated_at < ttl_seconds
 
 
+def _read_pack_file(path: Path) -> dict[str, Any] | None:
+    payload = _read_cache_file(path)
+    if payload is not None or not os.getenv("VERCEL"):
+        return payload
+
+    try:
+        source_path = PACKS_SOURCE_DIR / path.relative_to(PACKS_CACHE_DIR)
+    except ValueError:
+        return None
+    return _read_cache_file(source_path)
+
+
 def _schedule_cache_refresh(request: Request, key: str, loader: Callable[[], Awaitable[None]]) -> None:
     tasks: dict[str, asyncio.Task[None]] = request.app.state.cache_refresh_tasks
     task = tasks.get(key)
@@ -183,7 +196,7 @@ def _schedule_cache_refresh(request: Request, key: str, loader: Callable[[], Awa
 
 
 def _pack_name_from_index(pack_id: str) -> str | None:
-    cached_index = _read_cache_file(PACKS_CACHE_DIR / "index.json")
+    cached_index = _read_pack_file(PACKS_CACHE_DIR / "index.json")
     packs = cached_index.get("packs") if cached_index else None
     if not isinstance(packs, list):
         return None
@@ -200,21 +213,33 @@ def _pack_filename_slug(pack_name: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", ascii_name.casefold()).strip("-") or "colecao"
 
 
-def _pack_cards_path(pack_id: str, pack_name: str | None = None) -> Path:
+def _pack_cards_cache_path(pack_id: str, pack_name: str | None = None) -> Path:
     if not VALID_PACK_ID.fullmatch(pack_id):
         raise ValueError("Invalid pack identifier for cache file")
-
-    legacy_path = PACKS_CACHE_DIR / f"{pack_id}.json"
-    matches = sorted(PACKS_CACHE_DIR.glob(f"*--{pack_id}.json"))
-    if matches:
-        return matches[0]
-    if legacy_path.is_file():
-        return legacy_path
 
     resolved_name = pack_name or _pack_name_from_index(pack_id)
     if resolved_name:
         return PACKS_CACHE_DIR / f"{_pack_filename_slug(resolved_name)}--{pack_id}.json"
-    return legacy_path
+    return PACKS_CACHE_DIR / f"{pack_id}.json"
+
+
+def _pack_cards_path(pack_id: str, pack_name: str | None = None) -> Path:
+    cache_path = _pack_cards_cache_path(pack_id, pack_name)
+    cache_matches = sorted(PACKS_CACHE_DIR.glob(f"*--{pack_id}.json"))
+    if cache_matches:
+        return cache_matches[0]
+    if cache_path.is_file():
+        return cache_path
+
+    if os.getenv("VERCEL"):
+        source_matches = sorted(PACKS_SOURCE_DIR.glob(f"*--{pack_id}.json"))
+        if source_matches:
+            return source_matches[0]
+        source_path = PACKS_SOURCE_DIR / cache_path.name
+        if source_path.is_file():
+            return source_path
+
+    return cache_path
 
 
 class PokemonTCGClient:
@@ -414,7 +439,7 @@ async def list_packs(
             },
         )
 
-    cached_index = _read_cache_file(index_path)
+    cached_index = _read_pack_file(index_path)
     if cached_index is not None:
         try:
             cached_packs = [Pack.model_validate(pack) for pack in cached_index["packs"]]
@@ -561,7 +586,7 @@ async def _load_pack_cards(
             set_data = cards[0].get("set")
             if isinstance(set_data, dict) and isinstance(set_data.get("name"), str):
                 pack_name = set_data["name"]
-        destination = _pack_cards_path(pack_id, pack_name)
+        destination = _pack_cards_cache_path(pack_id, pack_name)
         payload: dict[str, Any] = {
             "pack_id": pack_id,
             "updated_at": time.time(),
@@ -818,10 +843,3 @@ async def list_cards(
 @app.get("/health")
 async def health() -> dict[str, str]:
     return {"status": "ok"}
-
-
-app.frontend(
-    "/",
-    directory=Path(__file__).resolve().parent / "public",
-    check_dir=False,
-)

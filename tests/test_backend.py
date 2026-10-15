@@ -181,6 +181,41 @@ class BackendTests(unittest.TestCase):
             [json.dumps(card, ensure_ascii=False, separators=(",", ":")) for card in payload["cards"]],
         )
 
+    def test_vercel_reads_seeded_pack_files_and_keeps_cache_writes_temporary(self) -> None:
+        source_directory = Path(self.cache_directory.name) / "source"
+        cache_directory = Path(self.cache_directory.name) / "runtime-cache"
+        source_directory.mkdir()
+        cache_directory.mkdir()
+        pack_index = {
+            "updated_at": 9999999999,
+            "packs": [{"id": "sv3pt5", "nome": "151"}],
+        }
+        pack_cards = {
+            "pack_id": "sv3pt5",
+            "updated_at": 9999999999,
+            "cards": [{"id": "sv3pt5-1", "name": "Bulbasaur"}],
+        }
+        (source_directory / "index.json").write_text(json.dumps(pack_index), encoding="utf-8")
+        (source_directory / "151--sv3pt5.json").write_text(
+            json.dumps(pack_cards),
+            encoding="utf-8",
+        )
+
+        with (
+            patch.dict("os.environ", {"VERCEL": "1"}),
+            patch.object(main, "PACKS_SOURCE_DIR", source_directory),
+            patch.object(main, "PACKS_CACHE_DIR", cache_directory),
+        ):
+            self.assertEqual(main._read_pack_file(cache_directory / "index.json"), pack_index)
+            self.assertEqual(
+                main._pack_cards_path("sv3pt5"),
+                source_directory / "151--sv3pt5.json",
+            )
+            self.assertEqual(
+                main._pack_cards_cache_path("sv3pt5"),
+                cache_directory / "151--sv3pt5.json",
+            )
+
     def test_packs_fall_back_to_tcgdex_when_pokemon_tcg_sets_are_unavailable(self) -> None:
         self.client.app.state.http_client = FakeTCGdexHttpClient()
         self.client.app.state.pokemon_client.get = AsyncMock(

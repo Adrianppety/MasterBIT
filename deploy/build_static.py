@@ -12,6 +12,7 @@ def main() -> None:
     (PUBLIC_DIR / "imagem").mkdir(parents=True, exist_ok=True)
     shutil.copy2(ROOT / "src" / "index.html", PUBLIC_DIR / "index.html")
     shutil.copy2(ROOT / "src" / "app.js", PUBLIC_DIR / "app.js")
+    shutil.copy2(ROOT / "src" / "favicon.svg", PUBLIC_DIR / "favicon.svg")
     for image in (ROOT / "imagem").iterdir():
         if image.is_file():
             shutil.copy2(image, PUBLIC_DIR / "imagem" / image.name)

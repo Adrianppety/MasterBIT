@@ -1,4 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "python deploy/build_static.py"
+  "buildCommand": "python deploy/build_static.py",
+  "outputDirectory": "public",
+  "functions": {
+    "main.py": {
+      "includeFiles": "API/packs/**"
+    }
+  }
 }
