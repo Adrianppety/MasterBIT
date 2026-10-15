@@ -16,6 +16,7 @@ from typing import Any, Awaitable, Callable
 import httpx
 from fastapi import Depends, FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ValidationError
 
 LOGGER = logging.getLogger("masterbit.api")
@@ -818,3 +819,14 @@ async def list_cards(
 @app.get("/health")
 async def health() -> dict[str, str]:
     return {"status": "ok"}
+
+
+app.mount(
+    "/",
+    StaticFiles(
+        directory=Path(__file__).resolve().parent / "public",
+        html=True,
+        check_dir=False,
+    ),
+    name="frontend",
+)
