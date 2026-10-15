@@ -6,9 +6,10 @@
 [![Deploy](https://img.shields.io/badge/Deploy-Vercel%20configurado-black?logo=vercel)](https://vercel.com/)
 
 <p align="center">
-	<img src="imagem/logo.png" alt="Logo MasterBIT" width="600">
+	<img src="imagem/LOGO.png" alt="Logo MasterBIT" width="600">
 </p>
 
-O **MasterBIT** é um catálogo web de cartas Pokémon TCG. Explore coleções, pesquise cartas e consulte informações como imagens, raridade e preços de referência.
+O **MasterBIT**
+ é um catálogo web de cartas Pokémon TCG. Explore coleções, pesquise cartas e consulte informações como imagens, raridade e preços de referência.
 
 O site tem uma interface responsiva com visual inspirado em pixel art. O backend é feito em **Python com FastAPI**, e o frontend usa HTML, CSS e JavaScript. Os dados das cartas vêm de APIs externas; os valores convertidos para reais são estimativas.
