@@ -197,7 +197,7 @@ O repositório está preparado para este fluxo:
 
 1. A aplicação FastAPI em `main.py` é detetada pela Vercel e executada como função serverless Python. As dependências são instaladas a partir de `requirements.txt`.
 2. O comando `python deploy/build_static.py`, definido em `vercel.json`, copia o HTML, JavaScript e imagens para `public/`.
-3. A Vercel publica `public/` como ficheiros estáticos e encaminha as rotas da API para a aplicação FastAPI.
+3. `app.frontend("/", directory=.../public)` liga esses ficheiros à aplicação FastAPI para servir o site na rota `/`; as rotas da API continuam disponíveis.
 4. O frontend usa a mesma origem do site para chamar a API publicada. Em desenvolvimento local, mantém o endereço `http://127.0.0.1:8000`.
 5. Na Vercel, o backend grava caches temporários em `/tmp/masterbit-packs`, pois o diretório da aplicação não é persistente para escrita.
 
