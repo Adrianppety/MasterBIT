@@ -6,7 +6,7 @@
 [![Deploy](https://img.shields.io/badge/Deploy-Vercel%20configurado-black?logo=vercel)](https://vercel.com/)
 
 <p align="center">
-	<img src="imagem/Gemini_Generated_Image_1palfx1palfx1pal-Photoroom.png" alt="Logo MasterBIT" width="600">
+	<img src="imagem/Gemini_Generated_Image_1palfx1palfx1pal-Photoroom.png" alt="Logo MasterBIT" width="700">
 </p>
 
 O **MasterBIT**
