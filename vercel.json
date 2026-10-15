@@ -7,6 +7,10 @@
     {
       "src": "src/**",
       "use": "@vercel/static"
+    },
+    {
+      "src": "imagem/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -17,6 +21,10 @@
     {
       "src": "/health",
       "dest": "main.py"
+    },
+    {
+      "src": "/imagem/(.*)",
+      "dest": "/imagem/$1"
     },
     {
       "src": "/(.*)",
