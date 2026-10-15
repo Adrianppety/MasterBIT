@@ -818,10 +818,3 @@ async def list_cards(
 @app.get("/health")
 async def health() -> dict[str, str]:
     return {"status": "ok"}
-
-
-app.frontend(
-    "/",
-    directory=Path(__file__).resolve().parent / "public",
-    check_dir=False,
-)
