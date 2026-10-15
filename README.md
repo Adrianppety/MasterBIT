@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/API-FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![Frontend](https://img.shields.io/badge/Frontend-Vanilla%20JS-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/docs/Web/JavaScript)
-[![Deploy](https://img.shields.io/badge/Deploy-Vercel%20(planeado)-black?logo=vercel)](https://vercel.com/)
+[![Deploy](https://img.shields.io/badge/Deploy-Vercel%20configurado-black?logo=vercel)](https://vercel.com/)
 
 Catálogo web de cartas Pokémon TCG para explorar coleções, pesquisar cartas e consultar preços de referência em USD e BRL.
 
@@ -53,7 +53,7 @@ As APIs externas dependem de disponibilidade e conectividade. O preço convertid
 
 ### Deploy
 
-O modelo de deploy pretendido é Vercel, com o frontend servido como conteúdo estático e o backend executado como função serverless Python. Consulte a secção [Deploy na Vercel](#deploy-na-vercel) para o estado atual da configuração.
+O deploy na Vercel serve o frontend como conteúdo estático e executa o backend FastAPI como função serverless Python. Consulte a secção [Deploy na Vercel](#deploy-na-vercel).
 
 ## Estrutura do repositório
 
@@ -61,14 +61,18 @@ O modelo de deploy pretendido é Vercel, com o frontend servido como conteúdo e
 .
 ├── API/
 │   └── packs/             # Ficheiros JSON de coleções e cartas em cache
+├── deploy/
+│   └── build_static.py    # Prepara os ficheiros estáticos para a Vercel
 ├── imagem/                # Imagens e recursos gráficos do projeto
 ├── src/
 │   ├── app.js             # Lógica do frontend e chamadas à API
 │   └── index.html         # Página e estilos da interface
 ├── tests/
 │   └── test_backend.py    # Testes automatizados do backend
+├── .gitignore
 ├── main.py               # Aplicação FastAPI e integração com as APIs
 ├── requirements.txt      # Dependências Python
+├── vercel.json            # Comando de build para os ficheiros estáticos
 └── README.md
 ```
 
@@ -187,17 +191,21 @@ Os testes usam `unittest` e o `TestClient` do FastAPI, com HTTPX e respostas sim
 
 ## Deploy na Vercel
 
-### Arquitetura pretendida
+### Configuração incluída
 
-Na arquitetura prevista para a Vercel:
+O repositório está preparado para este fluxo:
 
-1. Os ficheiros do frontend (`src/index.html`, `src/app.js` e recursos gráficos) são publicados como conteúdo estático.
-2. O backend Python é disponibilizado como uma função serverless.
-3. O `vercel.json` deve declarar as regras de build e encaminhamento necessárias, direcionando as rotas da API para a função Python e as restantes rotas para o frontend estático.
-4. As variáveis de ambiente, como `POKEMON_TCG_API_KEY`, devem ser configuradas nas definições do projeto na Vercel, e não guardadas no repositório.
+1. A aplicação FastAPI em `main.py` é detetada pela Vercel e executada como função serverless Python. As dependências são instaladas a partir de `requirements.txt`.
+2. O comando `python deploy/build_static.py`, definido em `vercel.json`, copia o HTML, JavaScript e imagens para `public/`.
+3. A Vercel publica `public/` como ficheiros estáticos e encaminha as rotas da API para a aplicação FastAPI.
+4. O frontend usa a mesma origem do site para chamar a API publicada. Em desenvolvimento local, mantém o endereço `http://127.0.0.1:8000`.
+5. Na Vercel, o backend grava caches temporários em `/tmp/masterbit-packs`, pois o diretório da aplicação não é persistente para escrita.
 
-### Estado da configuração neste repositório
+### Publicar
 
-**Não foi encontrado um ficheiro `vercel.json` na versão atual do repositório.** Assim, o modelo acima descreve a arquitetura pretendida, mas o encaminhamento e a configuração efetiva da Vercel ainda precisam de ser definidos e validados antes de considerar o deploy configurado. Este README não assume regras ou comandos de build que não estejam presentes no projeto.
+1. Envie estas alterações para o GitHub.
+2. Na Vercel, escolha **Add New → Project**, importe o repositório e mantenha a raiz do projeto na pasta raiz do repositório.
+3. Se necessário, configure `POKEMON_TCG_API_KEY` em **Project Settings → Environment Variables**. A chave é opcional.
+4. Clique em **Deploy**. Depois do build, abra a URL atribuída e confirme a página, as coleções e `/health`.
 
-Além disso, o cache em memória de uma função serverless não é persistente entre execuções, e o sistema de ficheiros pode não ser adequado para escrita persistente em produção. Para um deploy fiável, trate os ficheiros em `API/packs/` como dados incluídos no deploy ou cache descartável; não dependa de alterações escritas pela função para persistência duradoura.
+O cache em memória da função também pode desaparecer ou não ser partilhado entre instâncias. Nem o cache em memória nem o diretório `/tmp` devem ser usados como armazenamento persistente.

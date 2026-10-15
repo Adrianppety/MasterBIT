@@ -26,9 +26,12 @@ SETS_CACHE_TTL = int(os.getenv("SETS_CACHE_TTL_SECONDS", "43200"))
 CARDS_CACHE_TTL = int(os.getenv("CARDS_CACHE_TTL_SECONDS", "3600"))
 PACKS_FILE_TTL = int(os.getenv("PACKS_FILE_TTL_SECONDS", "43200"))
 PACK_CARDS_FILE_TTL = int(os.getenv("PACK_CARDS_FILE_TTL_SECONDS", "86400"))
-PACKS_CACHE_DIR = Path(
-    os.getenv("MASTERBIT_PACKS_DIR", str(Path(__file__).resolve().parent / "API" / "packs"))
+DEFAULT_PACKS_CACHE_DIR = (
+    Path("/tmp/masterbit-packs")
+    if os.getenv("VERCEL")
+    else Path(__file__).resolve().parent / "API" / "packs"
 )
+PACKS_CACHE_DIR = Path(os.getenv("MASTERBIT_PACKS_DIR", str(DEFAULT_PACKS_CACHE_DIR)))
 EXCHANGE_RATE_CACHE_TTL = int(os.getenv("EXCHANGE_RATE_CACHE_TTL_SECONDS", "3600"))
 EXCHANGE_RATE_API = "https://api.frankfurter.dev/v1/latest?base=USD&symbols=BRL"
 MAX_CARD_RESULTS = int(os.getenv("MAX_CARD_RESULTS", "5000"))

@@ -1,4 +1,8 @@
-const API_BASE_URL = window.MASTERBIT_API_URL || 'http://127.0.0.1:8000';
+const API_BASE_URL = window.MASTERBIT_API_URL || (
+  ['localhost', '127.0.0.1'].includes(window.location.hostname)
+    ? 'http://127.0.0.1:8000'
+    : window.location.origin
+);
 const LANGUAGE_LABELS = { BR: 'Português', US: 'Inglês', JP: 'Japonês' };
 const COLLECTION_BUTTON_CLASSES = 'collection-button min-h-14 w-full break-words border-2 border-white/10 px-3 py-3 text-left text-2xl leading-tight text-zinc-300 transition hover:border-neon-fuchsia hover:text-white';
 
