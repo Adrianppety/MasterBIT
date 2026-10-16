@@ -5,6 +5,7 @@ const API_BASE_URL = window.MASTERBIT_API_URL || (
 );
 const LANGUAGE_LABELS = { BR: 'Português', US: 'Inglês', JP: 'Japonês' };
 const COLLECTION_BUTTON_CLASSES = 'collection-button min-h-14 w-full break-words border-2 border-white/10 px-3 py-3 text-left text-2xl leading-tight text-zinc-300 transition hover:border-neon-fuchsia hover:text-white';
+const PACKS_WITHOUT_PRICES = new Set(['me55', 'me55c', 'me5', 'me4', 'me3', 'me2pt5']);
 
 const cardGrid = document.querySelector('#card-grid');
 const searchInput = document.querySelector('#search-input');
@@ -92,7 +93,10 @@ async function loadPacks() {
   const payload = await response.json();
   if (!Array.isArray(payload.packs)) throw new Error('A API retornou uma lista de coleções inválida.');
 
-  const packs = payload.packs;
+  const packs = [
+    ...payload.packs.filter((pack) => !PACKS_WITHOUT_PRICES.has(pack.id)),
+    ...payload.packs.filter((pack) => PACKS_WITHOUT_PRICES.has(pack.id))
+  ];
   packsById.clear();
   packs.forEach((pack) => packsById.set(pack.id, pack));
 
