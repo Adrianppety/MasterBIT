@@ -1,0 +1,158 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.popup-alert {
+    background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+    border: 2px solid rgba(255, 107, 53, 0.3);
+    border-radius: 16px;
+    padding: 2.5rem;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    animation: slideUp 0.4s ease-out;
+    z-index: 1000;
+}
+
+/* Decorative element - subtle pattern */
+.popup-alert::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 107, 53, 0.05) 0%, transparent 70%);
+    transform: rotate(15deg);
+    pointer-events: none;
+}
+
+/* Card icon */
+.card-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #FF6B35, #FF8C42);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+}
+
+.card-icon::before {
+    content: '⚡';
+    font-size: 28px;
+    color: white;
+}
+
+/* Title */
+.popup-title {
+    color: #FFFFFF;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    letter-spacing: -0.5px;
+    font-family: 'Pokemon Solid', 'Press Start 2P', 'Orbitron', monospace;
+}
+
+/* Fallback if custom font not available */
+@font-face {
+    font-family: 'Pokemon Solid';
+    src: local('Arial'); /* Fallback */
+}
+
+/* Message */
+.popup-message {
+    color: #E0E0E0;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: #FFFFFF;
+}
+
+/* Highlight text */
+.highlight {
+    color: #FF6B35;
+    font-weight: 500;
+}
+
+/* Button */
+.popup-button {
+    background: linear-gradient(135deg, #FF6B35, #FF8C42);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 0.75rem 2rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.popup-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
+    background: linear-gradient(135deg, #FF521F, #FF7A33);
+}
+
+.popup-button:active {
+    transform: translateY(0);
+}
+
+/* Animations */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .popup-alert {
+        padding: 2rem;
+    }
+
+    .popup-title {
+        font-size: 1.25rem;
+    }
+
+    .popup-message {
+        font-size: 0.95rem;
+    }
+}
+
+/* Focus accessibility */
+.popup-button:focus-visible {
+    outline: 2px solid #4ECDC4;
+    outline-offset: 2px;
+}
+
+/* Overlay for full coverage */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
