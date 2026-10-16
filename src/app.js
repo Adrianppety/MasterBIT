@@ -18,14 +18,11 @@ const packSearchEmpty = document.querySelector('#pack-search-empty');
 const cardPreview = document.querySelector('#card-preview');
 const previewImage = document.querySelector('#card-preview-image');
 const packAlertDialog = document.querySelector('#pack-alert-dialog');
-const packAlertMessage = document.querySelector('#pack-alert-message');
 const packsById = new Map();
-const packsAlreadyWarned = new Set();
 let activeCollection = 'sv3pt5';
 let visibleCards = [];
 let requestSequence = 0;
 let searchDebounce;
-let packAlertTimer;
 
 const dollars = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
 const reais = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -218,19 +215,8 @@ function showError(message) {
   resultCount.textContent = 'Não foi possível consultar os valores.';
 }
 
-function showPackAlertIfNeeded(cards) {
-  const hasPrice = (value) => value !== null && value !== undefined && Number.isFinite(Number(value));
-  const unavailableCount = cards.filter((card) => !hasPrice(card.preco_usd) && !hasPrice(card.preco_brl)).length;
-  const warningKey = activeCollection;
-  if (unavailableCount === 0 || packsAlreadyWarned.has(warningKey)) return;
-
-  packsAlreadyWarned.add(warningKey);
-  packAlertMessage.textContent = `${unavailableCount} ${unavailableCount === 1 ? 'carta deste resultado ainda está sem cotação' : 'cartas deste resultado ainda estão sem cotação'}. As cartas continuam disponíveis para consulta.`;
-  packAlertDialog.showModal();
-  window.clearTimeout(packAlertTimer);
-  packAlertTimer = window.setTimeout(() => {
-    if (packAlertDialog.open) packAlertDialog.close();
-  }, 8000);
+function showPackAlert() {
+  if (!packAlertDialog.open) packAlertDialog.showModal();
 }
 
 async function loadCards() {
@@ -270,7 +256,6 @@ async function loadCards() {
     visibleCards = payload.cartas.filter((card) => (
       wantedLanguages.size === 0 || wantedLanguages.has(card.idioma)
     ));
-    showPackAlertIfNeeded(visibleCards);
     cardGrid.replaceChildren(...visibleCards.map(renderCard));
     cardGrid.hidden = visibleCards.length === 0;
     emptyState.hidden = visibleCards.length > 0;
@@ -337,7 +322,6 @@ document.querySelectorAll('[data-close]').forEach((button) => {
   button.addEventListener('click', () => document.querySelector(`#${button.dataset.close}`).close());
 });
 document.querySelector('#pack-alert-close').addEventListener('click', () => packAlertDialog.close());
-packAlertDialog.addEventListener('close', () => window.clearTimeout(packAlertTimer));
 document.querySelectorAll('dialog').forEach((dialog) => {
   dialog.addEventListener('click', (event) => {
     if (event.target === dialog) dialog.close();
@@ -368,4 +352,5 @@ async function initialize() {
   await loadCards();
 }
 
+showPackAlert();
 initialize();
