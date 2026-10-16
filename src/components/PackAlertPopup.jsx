@@ -42,7 +42,9 @@ const PackAlertPopup = ({ isVisible, onClose }) => {
   return (
     <div className="popup-overlay" role="presentation">
       <div className="popup-alert" role="alertdialog" aria-modal="true" aria-labelledby="pack-alert-title">
-        <div className="card-icon" aria-hidden="true"></div>
+        <div className="card-icon">
+          <img src="/imagem/Gemini_Generated_Image_1palfx1palfx1pal-Photoroom.png" alt="" aria-hidden="true" />
+        </div>
         <h2 id="pack-alert-title" className="popup-title">ATENÇÃO: PACOTES COM DADOS INCOMPLETOS</h2>
         <p className="popup-message">
           Alguns pacotes não tiveram valores possíveis<br />
